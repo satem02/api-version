@@ -1,9 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -70,6 +75,20 @@ namespace Microsoft.Extensions.DependencyInjection
                     return versions.Any(v => $"v{v.ToString()}" == version) && (maps.Length == 0 || maps.Any(v => $"v{v.ToString()}" == version));
                 });
 
+
+                // AddSecurityDefinition 
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> { { "Bearer", new string[] { } } });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+
             });
         }
 
@@ -81,6 +100,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 c.SwaggerEndpoint($"/swagger/v3/swagger.json", $"v3");
                 c.SwaggerEndpoint($"/swagger/v2/swagger.json", $"v2");
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
+                c.DocumentTitle = "Title Documentation";
+                c.DocExpansion(DocExpansion.None);
             });
         }
 

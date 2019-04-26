@@ -8,7 +8,12 @@ namespace api_version.V1.Controllers
     [ApiVersion("1")]
     public class LoginController : Controller
     {
+        /// <summary>
+        /// test
+        /// </summary>
+        /// <param name="model"></param>
         [Route("Login"), HttpPost]
+        [Consumes("application/json")]
         public void Post([FromBody]LoginViewModel model)
         {
         }
