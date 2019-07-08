@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -53,7 +52,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     });
                 // This call remove version from parameter, without it we will have version as parameter 
                 // for all endpoints in swagger UI
-                options.OperationFilter<RemoveVersionFromParameter>();
+                //options.OperationFilter<RemoveVersionFromParameter>();
 
                 // This make replacement of v{version:apiVersion} to real version of corresponding swagger doc.
                 options.DocumentFilter<ReplaceVersionWithExactValueInPath>();

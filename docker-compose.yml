@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  api-version:
+    container_name: "api-version"
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+     - 5009:80
+    environment: 
+     - ASPNETCORE_ENVIRONMENT=Production
